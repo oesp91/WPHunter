@@ -1,4 +1,12 @@
 services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src/:/src
   backend:
     build: 
       context: ./backend
@@ -6,4 +14,4 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./backend/src/:/app
+      - ./backend/app/:/app
