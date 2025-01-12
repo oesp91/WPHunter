@@ -6,7 +6,9 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend/src/:/src
+      - ./frontend:/app
+    stdin_open: true
+    tty: true
   backend:
     build: 
       context: ./backend
