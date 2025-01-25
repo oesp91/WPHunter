@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.responses import RedirectResponse
 from routers import analysis
 
 app = FastAPI(
@@ -23,5 +24,5 @@ async def health_check():
     return {"status": "healthy"}
 
 @app.get("/")
-def hello():
-    return "hello world"
+def root():
+    return RedirectResponse(url="/docs", status_code=302)
