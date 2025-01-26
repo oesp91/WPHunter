@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { AnalysisResult } from '../types/analysis';
-import { mockAnalysisResult } from '../types/mockData.ts'
+import { AnalysisResult } from '@types/analysis';
+import { mockAnalysisResult } from '@types/mockData.ts'
 
 interface Props {
   taskId: string;

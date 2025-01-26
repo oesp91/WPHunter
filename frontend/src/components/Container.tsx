@@ -1,4 +1,4 @@
-import Divider from "./Divider.tsx"
+import Divider from "@components/Divider.tsx"
 
 const Container = ({ title, children }) => {
   return (
