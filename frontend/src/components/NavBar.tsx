@@ -5,7 +5,7 @@
           <span className="max-lg:hidden relative">
             <button type="button" className="relative flex items-center">
               <img src="/logo.png" className="h-7 w-7 mr-2"/>
-              <span className="flex items-center font-mono font-bold antialiased">WPHunter</span>
+              <span className="flex items-center font-serif font-bold antialiased">WPHunter</span>
             </button>
           </span>
           <div aria-hidden="true" className="max-lg:hidden h-6 w-px bg-white/10"></div>

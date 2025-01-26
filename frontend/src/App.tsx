@@ -7,15 +7,14 @@ import NavBar from "./components/Navbar.tsx"
 import Container from "./components/Container.tsx"
 import Divider from "./components/Divider.tsx"
 import Home from "./pages/Home.tsx"
+import Test from "@pages/Test.tsx"
+import ReactDOM from "react-dom"
 
 const App = () => {
   const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
   return (
-    <Layout>
-      <Container title="Good Morning">
-      </Container>
-      <Home/>
-    </Layout>
+    <Home/>
+    //<Test />
   );
 }
 
