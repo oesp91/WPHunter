@@ -8,8 +8,6 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
-      - /app/vite.config.ts
-      - /app/tsconfig.json
     stdin_open: true
     tty: true
   backend:
