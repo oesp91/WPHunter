@@ -5,13 +5,13 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server: {
     fs: {
-      cachedChecks: true
+      cachedChecks: false
     }
   },
   plugins: [react()],
   resolve: {
     alias: [
-      { find: "@", replacement: "/src" },
+      { find: "@", replacement: "src" },
       { find: "@components", replacement: "/src/components" },
       { find: "@pages", replacement: "/src/pages"},
       { find: "@type", replacement: "/src/types"},
