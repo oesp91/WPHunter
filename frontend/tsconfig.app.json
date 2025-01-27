@@ -22,7 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    "baseurl": "src",
+    "baseurl": "./src",
     "paths": {
       "/@/*": ["*"],
       "/@components/*": ["components/*"],
