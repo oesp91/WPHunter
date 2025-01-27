@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import Container from "@components/Container.tsx";
-import LoginModal from "@components/LoginModal.tsx";
+import Container from "@components/Container";
+import LoginModal from "@components/LoginModal";
 
 const useTypeWriter = (text, speed = 50) => {
   const [displayText, setDisplayText] = useState('');

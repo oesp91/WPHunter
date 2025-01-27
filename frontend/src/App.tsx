@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from "@components/Layout.tsx"
-import Home from "@pages/Home.tsx";
-import Analysis from "@pages/Analysis.tsx"
-import Scanner from "@pages/Scanner.tsx"
+import Layout from "@components/Layout"
+import Home from "@pages/Home"
+import Analysis from "@pages/Analysis"
+import Scanner from "@pages/Scanner"
 
 const App = () => {
   return (

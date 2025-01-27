@@ -1,5 +1,5 @@
-import Layout from "@components/Layout.tsx";
-import Container from "@components/Container.tsx";
+import Layout from "@components/Layout";
+import Container from "@components/Container";
 
 const Analysis = () => {
   return (

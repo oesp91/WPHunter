@@ -1,4 +1,4 @@
-import Container from "@components/Container.tsx"
+import Container from "@components/Container"
 
 const Scanner = () => {
   return (
