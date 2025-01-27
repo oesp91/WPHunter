@@ -1,29 +1,22 @@
-import { useState } from 'react'
-import FileUpload from './components/FileUpload.tsx'
-import AnalysisResults from './components/AnalysisResult.tsx'
-import Button from "./components/Button.tsx"
-import Layout from "./components/Layout.tsx"
-import NavBar from "./components/Navbar.tsx"
-import Container from "./components/Container.tsx"
-import Divider from "./components/Divider.tsx"
-import Home from "./pages/Home.tsx"
-import Test from "@pages/Test.tsx"
-import ReactDOM from "react-dom"
+import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from "@components/Layout.tsx"
+import Home from "@pages/Home.tsx";
+import Analysis from "@pages/Analysis.tsx"
+import Scanner from "@pages/Scanner.tsx"
 
 const App = () => {
-  const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
   return (
-    <Home/>
-    //<Test />
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/analysis" element={<Analysis />} />
+          <Route path="/scanner" element={<Scanner />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   );
 }
 
 export default App;
-
-      //<div className="container mx-auto max-w-4xl text-white">
-      //<h1 className="text-2xl font-bold text-center my-8">WPHunter</h1>
-      //<FileUpload onUploadSuccess={id => setCurrentTaskId(id)} />
-      //<Button color="zinc">Button</Button>
-      //{currentTaskId && <AnalysisResults taskId={currentTaskId} />}
-      //<AnalysisResults taskId={'mock-task-id'} />
-      //</div>

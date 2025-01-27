@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,tx,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        blink: {
+          '0%, 100%': { opacity: '0'},
+          '50%': {opacity: '100'}
+        }
+      },
+    },
   },
   plugins: [],
 }
