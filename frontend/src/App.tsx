@@ -4,13 +4,11 @@ import Layout from "@components/Layout"
 import Home from "@pages/Home"
 import Analysis from "@pages/Analysis"
 import Scanner from "@pages/Scanner"
-import Navbar from "@components/Navbar"
 
 const App = () => {
   return (
     <BrowserRouter>
       <Layout>
-        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/analysis" element={<Analysis />} />
