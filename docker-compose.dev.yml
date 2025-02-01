@@ -23,6 +23,6 @@ services:
   analysis:
     build:
       context: ./analysis
-      dockerfile: Dockfile.dev
+      dockerfile: Dockerfile.dev
     volumes:
       - ./analysis:/app
