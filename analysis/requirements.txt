@@ -1,0 +1,4 @@
+semgrep
+phpstan
+requests
+python-multipart

@@ -1,5 +1,31 @@
 services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    depends_on:
+      - backend
+
   backend:
-    build: ./backend/Dockerfile
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    restart: unless-stopped
+    depends_on:
+      - analysis
+
+  analysis:
+    build:
+      context: ./analysis
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - analysis_data:/app/data
+
+volumes:
+  analysis_data:

@@ -1,12 +1,15 @@
-FROM node:22-alpine AS build
+# 빌드 스테이지
+FROM node:22-slim AS build
 WORKDIR /app
-COPY package.json .
+COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
 
-FROM node:22-alpine
+# 실행 스테이지
+FROM node:22-slim
 WORKDIR /app
 COPY --from=build /app/dist ./dist
 RUN npm install -g serve
+EXPOSE 3000
 CMD ["serve", "-s", "dist"]
