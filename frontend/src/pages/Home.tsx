@@ -24,7 +24,6 @@ const useTypeWriter = (text, speed = 50) => {
   return { displayText, isTypingComplete };
 };
 
-// Greeting 함수 추가
 const getInitialGreeting = () => {
   const hour = new Date().getHours();
   if (hour >= 5 && hour < 12) return "Good morning";
@@ -36,7 +35,7 @@ const getInitialGreeting = () => {
 const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [greeting] = useState(getInitialGreeting);
-  const { displayText, isTypingComplete } = useTypeWriter(`${greeting}, SCP`, 70);
+  const { displayText, isTypingComplete } = useTypeWriter(`${greeting}, Hacker`, 70);
 
   return (
     <Container>
