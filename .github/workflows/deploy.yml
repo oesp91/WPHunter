@@ -15,6 +15,6 @@ jobs:
           SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
         run: |
           sshpass -p $SERVER_PASSWORD ssh -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_HOST '
-            cd /~/WPHunter &&
+            cd /home/ubuntu/WPHunter &&
             git pull
             '
