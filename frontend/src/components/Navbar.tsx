@@ -69,6 +69,7 @@ const Navbar = () => {
 
   return (
     <header className="flex items-center px-4">
+      <title>WPHunter</title>
       <nav className="flex flex-1 items-center py-2 bg-zinc-950 text-white">
         <NavbarBrand />
         <NavbarDivider />
