@@ -26,9 +26,9 @@ const button = tv({
   },
 });
 
-const Button = ({ color, size, disabled, children}) => {
+const Button = ({ color, size, disabled, onClick, children}) => {
   return (
-    <button className={button({ color, size, disabled})} disabled={disabled}>
+    <button className={button({ color, size, disabled })} disabled={disabled} onClick={onClick}>
     {children}
     </button>
   );

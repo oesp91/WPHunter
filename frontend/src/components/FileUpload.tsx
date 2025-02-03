@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import FileInput from "@components/FileInput"
+import Button from "@components/Button"
+import Spinner from "@components/Spinner"
 
 const FileUpload = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -28,19 +31,21 @@ const FileUpload = () => {
   return (
     <div className="p-4">
       <div className="flex flex-col items-center gap-4">
-        <input
-          type="file"
-          accept=".zip"
-          onChange={e => setFile(e.target.files?.[0] || null)}
-          className="border p-2 rounded"
-        />
-        <button
-          onClick={handleUpload}
+        <FileInput onChange={setFile} />
+        <Button
+          color={file ? "yellow" : "zinc"}
           disabled={!file || uploading}
-          className="bg-blue-500 text-white px-4 py-2 rounded disabled:bg-gray-300"
+          onclick={handleUpload}
         >
-          {uploading ? 'Uploading...' : 'Analyze'}
-        </button>
+        { uploading ? (
+          <span className="flex items-center gap-2">
+            <Spinner />
+            Analyzing...
+          </span>
+        ) : (
+          "Start Analysis"
+        )}
+        </Button>
       </div>
     </div>
   );
