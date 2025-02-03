@@ -20,6 +20,7 @@ const FileUpload = () => {
         body: formData,
       });
       const data = await response.json();
+      console.log("Upload success:", data);
       // 분석 시작 후 처리
     } catch (error) {
       console.error('Upload failed:', error);

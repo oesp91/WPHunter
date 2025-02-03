@@ -3,6 +3,8 @@ from watchdog.events import FileSystemEventHandler
 import subprocess
 import time
 import sys
+import os
+import threading
 
 class CodeChangeHandler(FileSystemEventHandler):
     def __init__(self):
@@ -10,10 +12,16 @@ class CodeChangeHandler(FileSystemEventHandler):
         self.start_worker()
     
     def start_worker(self):
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        worker_path = os.path.join(script_dir, 'worker.py')
+
         if self.process:
+            print("Terminating existing worker...", flush=True)
             self.process.terminate()
-        # worker.py 실행
-        self.process = subprocess.Popen([sys.executable, 'src/worker.py'])
+            self.process.wait()
+
+        print("Starting new worker process...")
+        self.process = subprocess.Popen([sys.executable, worker_path])
     
     def on_modified(self, event):
         if event.src_path.endswith('.py'):
@@ -23,7 +31,7 @@ class CodeChangeHandler(FileSystemEventHandler):
 def main():
     handler = CodeChangeHandler()
     observer = Observer()
-    observer.schedule(handler, path='src', recursive=True)
+    observer.schedule(handler, path='.', recursive=True)
     observer.start()
     
     try:
