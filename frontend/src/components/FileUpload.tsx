@@ -30,12 +30,12 @@ const FileUpload = () => {
 
   return (
     <div className="p-4">
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-7">
         <FileInput onChange={setFile} />
         <Button
           color={file ? "yellow" : "zinc"}
           disabled={!file || uploading}
-          onclick={handleUpload}
+          onClick={handleUpload}
         >
         { uploading ? (
           <span className="flex items-center gap-2">
