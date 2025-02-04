@@ -35,7 +35,7 @@ const getInitialGreeting = () => {
 const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [greeting] = useState(getInitialGreeting);
-  const { displayText, isTypingComplete } = useTypeWriter(`${greeting}, Hacker`, 70);
+  const { displayText, isTypingComplete } = useTypeWriter(`${greeting}, Juwon`, 70);
 
   return (
     <Container>

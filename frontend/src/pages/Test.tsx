@@ -1,42 +1,35 @@
 import ContrastBlock from "@components/ContrastBlock.tsx"
+import Container from "@components/Container"
+import Button from "@components/Button"
+import Divider from "@components/Divider"
+import FileInput from "@components/FileInput"
+import Spinner from "@components/Spinner"
 
 const Test = () => (
-  <div className="mx-auto max-w-6xl px-4">
-    {/* Hero Section */}
-    <div className="flex py-24 items-center">
-      <div className="flex-1">
-        <h1 className="text-5xl font-bold mb-6">
-          WPHunter
-        </h1>
-        <p className="text-xl mb-8 text-gray-300">
-          Beat other hackers to the punch and discover critical vulnerabilities first. The hunt begins now.
-        </p>
-        <div className="flex gap-4">
-          <a 
-            href="/analysis" 
-            className="bg-white text-black px-6 py-3 rounded-lg font-semibold"
-          >
-            Start Analysis
-          </a>
-          <a 
-            href="/scanner" 
-            className="border border-white px-6 py-3 rounded-lg font-semibold"
-          >
-            Auto Scanner
-          </a>
-        </div>
+  <Container title="My Components">
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-2">
+        <Button color="zinc" size="small">click me</Button> 
+        <Button color="zinc" size="small" disabled>click me</Button> 
       </div>
-      
-      {/* Feature Highlight */}
-      <div className="flex-1">
-        <ContrastBlock className="p-6">
-          <code className="text-sm">
-            {/* Analysis result preview */}
-          </code>
-        </ContrastBlock>
+      <div className="flex gap-2">
+        <Button color="zinc2" size="small">click me</Button> 
+        <Button color="zinc2" size="small" disabled>click me</Button> 
       </div>
+      <div className="flex gap-2">
+        <Button color="yellow" size="small">click me</Button> 
+        <Button color="yellow" size="small" disabled>click me</Button> 
+      </div>
+      <div className="flex gap-2">
+        <Button color="white" size="small">click me</Button> 
+        <Button color="white" size="small" disabled>click me</Button> 
+      </div>
+      <Divider />
+      <FileInput />
+      <Divider />
+      <Spinner />
     </div>
-  </div>
+  </Container>
 );
 
 export default Test;

@@ -6,7 +6,6 @@ import aiofiles
 
 router = APIRouter(prefix="/api/analysis")
 
-# 임시 저장소
 UPLOAD_DIR = "uploads"
 if not os.path.exists(UPLOAD_DIR):
     os.makedirs(UPLOAD_DIR)
@@ -14,7 +13,7 @@ if not os.path.exists(UPLOAD_DIR):
 @router.post("/upload")
 async def upload(file: UploadFile) -> Dict:
     file_path =  os.path.join(UPLOAD_DIR, file.filename)
-    # 파일 확장자 검증
+
     if not file.filename.endswith('.zip'):
         raise HTTPException(status_code=400, detail="Only ZIP files are allowed")
 
