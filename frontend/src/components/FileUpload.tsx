@@ -3,7 +3,11 @@ import FileInput from "@components/FileInput"
 import Button from "@components/Button"
 import Spinner from "@components/Spinner"
 
-const FileUpload = () => {
+interface FileUploadProps {
+  onUploadSuccess: (taskId: string) => void;
+}
+
+const FileUpload = ({ onUploadSuccess }: FileUploadProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -15,11 +19,12 @@ const FileUpload = () => {
 
     setUploading(true);
     try {
-      const response = await fetch('http://localhost:8000/api/analysis/upload', {
+      const response = await fetch('http://localhost:8000/api/analysis/analyze', {
         method: 'POST',
         body: formData,
       });
       const data = await response.json();
+      onUploadSuccess(data.task_id);
       console.log("Upload success:", data);
       // 분석 시작 후 처리
     } catch (error) {

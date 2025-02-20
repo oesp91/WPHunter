@@ -1,57 +1,92 @@
-import { useState, useEffect } from 'react';
-import { AnalysisResult } from '@types/analysis';
-import { mockAnalysisResult } from '@types/mockData'
+import { useEffect, useState } from 'react';
 
-interface Props {
+// 결과 데이터 타입 정의
+export type AnalysisResult = {
+  check_id: string;
+  path: string;
+  start: { line: number };
+  end: { line: number };
+  extra: {
+    severity: 'ERROR' | 'WARNING' | 'INFO';
+    message: string;
+    lines: string;
+  };
+};
+
+export type AnalysisResultsData = {
+  status: 'processing' | 'completed';
+  result?: {
+    results: AnalysisResult[];
+  };
+};
+
+interface AnalysisResultsProps {
   taskId: string;
+  onComplete?: () => void;
 }
 
-const AnalysisResults = ({ taskId }: Props) => {
-  const [result, setResult] = useState<AnalysisResult | null>(null);
-  const [loading, setLoading] = useState(true);
+const AnalysisResults = ({ taskId, onComplete }: AnalysisResultsProps) => {
+  const [result, setResult] = useState<AnalysisResultsData | null>(null);
 
+  // 결과 폴링
   useEffect(() => {
-    const fetchResults = async () => {
+    if (!taskId) return;
+
+    const interval = setInterval(async () => {
       try {
-        //const response = await fetch(`http://localhost:8000/api/analysis/result/${taskId}`);
-        //const data = await response.json();
-        setResult(mockAnalysisResult);
+        const response = await fetch(`http://localhost:8000/api/analysis/result/${taskId}`);
+        const data = await response.json();
+        setResult(data);
+        if (data.status === 'completed') {
+          clearInterval(interval);
+          if (onComplete) onComplete();
+        }
       } catch (error) {
-        console.error('Failed to fetch results:', error);
-      } finally {
-        setLoading(false);
+        console.error('Error fetching result:', error);
       }
-    };
+    }, 3000);
 
-    fetchResults();
-  }, [taskId]);
+    return () => clearInterval(interval);
+  }, [taskId, onComplete]);
 
-  if (loading) return <div>Loading results...</div>;
-  if (!result) return <div>No results found</div>;
+  if (!result) return null;
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Analysis Results</h2>
-      <div className="space-y-4">
-        {result.vulnerabilities.map((vuln, index) => (
-          <div key={index} className="border p-4 rounded">
-            <div className="flex justify-between">
-              <span className="font-semibold">{vuln.type}</span>
-              <span className={`px-2 py-1 rounded text-sm ${
-                vuln.severity === 'high' ? 'bg-red-100 text-red-800' :
-                vuln.severity === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-blue-100 text-blue-800'
-              }`}>
-                {vuln.severity}
-              </span>
+    <div className="mt-8">
+      <h2 className="text-xl font-semibold mb-4">Analysis Results</h2>
+      
+      {result.status === 'processing' ? (
+        <div className="text-center p-4 bg-blue-50 rounded-lg">
+          Analysis in progress...
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {result.result?.results.map((finding, index) => (
+            <div 
+              key={index}
+              className="p-4 border rounded-lg hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`px-2 py-1 rounded-full text-sm ${
+                  finding.extra.severity === 'ERROR' ? 'bg-red-100 text-red-800' :
+                  finding.extra.severity === 'WARNING' ? 'bg-yellow-100 text-yellow-800' :
+                  'bg-blue-100 text-blue-800'
+                }`}>
+                  {finding.extra.severity}
+                </span>
+                <span className="font-medium">{finding.check_id}</span>
+              </div>
+              <p className="text-gray-600 mb-2">{finding.extra.message}</p>
+              <div className="bg-gray-50 p-3 rounded-md font-mono text-sm text-zinc-950">
+                <pre>{finding.extra.lines}</pre>
+              </div>
+              <p className="mt-2 text-sm text-gray-500">
+                File: {finding.path} (Lines {finding.start.line}-{finding.end.line})
+              </p>
             </div>
-            <p className="text-gray-600 mt-2">{vuln.description}</p>
-            <pre className="bg-gray-100 p-2 mt-2 rounded">
-              <code>{vuln.code_snippet}</code>
-            </pre>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

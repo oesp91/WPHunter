@@ -20,14 +20,14 @@ services:
     volumes:
       - ./backend/app/:/app
 
-  analysis:
-    build:
-      context: ./analysis
-      dockerfile: Dockerfile.dev
-    volumes:
-      - ./analysis:/app
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
+  # analysis:
+  #   build:
+  #     context: ./analysis
+  #     dockerfile: Dockerfile.dev
+  #   volumes:
+  #     - ./analysis:/app
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "10m"
+  #       max-file: "3"
