@@ -5,7 +5,11 @@ git clone https://github.com/oesp91/WPHunter.git
 cd WPHunter
 ```
 ```bash
-docker compose -f Dockerfile.dev up --build
+docker compose -f docker-compose.dev.yml up --build
+```
+### 종료
+```bash
+docker compose down --volumes
 ```
 localhost:5173
 ## api 흐름
