@@ -19,7 +19,7 @@ const FileUpload = ({ onUploadSuccess }: FileUploadProps) => {
 
     setUploading(true);
     try {
-      const response = await fetch('http://localhost:8000/api/analysis/analyze', {
+      const response = await fetch('http://localhost:8000/api/analysis/scans', {
         method: 'POST',
         body: formData,
       });

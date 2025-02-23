@@ -23,11 +23,11 @@ def run_semgrep_analysis(file_path, result_path):
         [
             'semgrep',
             'scan',
-            '--config', 'auto',
+            '--config', '/app/services/rules.yaml',
             '--json', f'--json-output={str(result_path)}'
         ], 
         cwd=str(file_path),
-        check=True
+        check=False
     )
 
 def start_analysis(task_id):

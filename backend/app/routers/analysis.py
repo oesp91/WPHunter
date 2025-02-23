@@ -30,7 +30,7 @@ if not os.path.exists(UPLOAD_DIR):
 #
 #     return {"filename": file.filename, "status": "uploaded"}
 
-@router.post("/analyze")
+@router.post("/scans", status_code=202)
 async def analyze(file: UploadFile):
     if not file.filename.endswith('.zip'):
         raise HTTPException(status_code=400, detail="Only ZIP files are allowed")
@@ -53,7 +53,7 @@ async def analyze(file: UploadFile):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
 
-@router.get("/result/{task_id}")
+@router.get("/scans/{task_id}", status_code=200)
 async def get_result(task_id):
     result_path = RESULT_DIR / f"{task_id}.json"
 

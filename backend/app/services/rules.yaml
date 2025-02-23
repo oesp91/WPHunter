@@ -1,0 +1,138 @@
+rules:
+  # 1. 파일 업로드 취약점 탐지 (Improved)
+  - id: wordpress-unrestricted-file-upload
+    patterns:
+      - pattern: |
+          move_uploaded_file($_FILES[$_]["tmp_name"], $TARGET)
+      - pattern-not-inside: |
+          if (wp_verify_nonce($_, $_)) { ... }
+      - pattern-not-inside: |
+          if (preg_match("/\.(php|php[0-9]|phtml)$/i", $_)) { ... }
+    message: "Unrestricted file upload detected: No nonce or file extension validation"
+    languages: [php]
+    severity: ERROR
+
+  # 2. SQL 인젝션 탐지 (Improved)
+  - id: wordpress-sql-injection
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $wpdb->query($_REQUEST[$_])
+          - pattern: |
+              $wpdb->query($_GET[$_])
+          - pattern: |
+              $wpdb->query($_POST[$_])
+          - pattern: |
+              $wpdb->query($unsafe_var)
+      - pattern-not-inside: |
+          $wpdb->prepare($_, $_)
+    message: "Potential SQL injection: User input not sanitized or prepared"
+    languages: [php]
+    severity: ERROR
+
+  # 3. XSS
+  # - id: wordpress-xss
+  #   patterns:
+  #     - pattern-either:
+  #         - pattern: |
+  #             echo $_GET["$LIT"]
+  #         - pattern: |
+  #             echo $_POST["$LIT"]
+  #         - pattern: |
+  #             echo $_REQUEST["$LIT"]
+  #         - pattern: |
+  #             echo $_GET[$VAR]
+  #         - pattern: |
+  #             echo $_POST[$VAR]
+  #         - pattern: |
+  #             echo $_REQUEST[$VAR]
+  #         - pattern: |
+  #             print $_GET[$VAR]
+  #         - pattern: |
+  #             printf(..., $_REQUEST[$VAR])
+  #         - pattern: |
+  #             <?= $_POST[$VAR] ?>
+  #     - pattern-not-inside: |
+  #         echo esc_html(...)
+  #     - pattern-not-inside: |
+  #         echo esc_attr(...)
+  #     - pattern-not-inside: |
+  #         echo esc_url(...)
+  #     - pattern-not-inside: |
+  #         echo wp_kses_post(...)
+  #   message: "Potential XSS: User input echoed without escaping"
+  #   languages: [php]
+  #   severity: WARNING
+
+  # 4. 권한 체크 누락 탐지
+  - id: wordpress-missing-capability-check
+    patterns:
+      - pattern: |
+          update_option($_, $_)
+      - pattern-not-inside: |
+          if (current_user_can("manage_options")) { ... }
+      - pattern-not-inside: |
+          if (current_user_can($CAPABILITY)) { ... }
+    message: "Missing capability check before updating options"
+    languages: [php]
+    severity: ERROR
+
+  # 5. 위험한 PHP 함수 사용 탐지
+  - id: wordpress-dangerous-php-functions
+    patterns:
+      - pattern-either:
+          - pattern: |
+              eval($X)
+          - pattern: |
+              exec($X)
+          - pattern: |
+              system($X)
+          - pattern: |
+              shell_exec($X)
+          - pattern: |
+              passthru($X)
+          - pattern: |
+              assert($X)
+    message: "Dangerous PHP function detected"
+    languages: [php]
+    severity: CRITICAL
+
+  # 6. CSRF 취약점 탐지 
+  # - id: wordpress-csrf-vulnerability
+  #   patterns:
+  #     - pattern: |
+  #         if ($_SERVER["REQUEST_METHOD"] == "POST") { ... }
+  #     - pattern-not-inside: |
+  #         if (wp_verify_nonce($_POST["nonce"], "action")) { ... }
+  #   message: "Potential CSRF vulnerability: Missing nonce verification"
+  #   languages: [php]
+  #   severity: ERROR
+
+  # 7. File Include 취약점 탐지
+  - id: wordpress-file-inclusion
+    patterns:
+      - pattern-either:
+          - pattern: |
+              include($_GET[$VAR])
+          - pattern: |
+              require($_POST[$VAR])
+          - pattern: |
+              include_once($_REQUEST[$VAR])
+          - pattern: |
+              require_once($unsafe_var)
+      - pattern-not-inside: |
+          if (file_exists(...)) { ... }
+    message: "Potential file inclusion vulnerability: User input used in file inclusion"
+    languages: [php]
+    severity: ERROR
+
+  # 8. 관리자 기능 접근 제어
+  - id: wordpress-admin-access-control
+    patterns:
+      - pattern: |
+          add_menu_page(...)
+      - pattern-not-inside: |
+          if (current_user_can("manage_options")) { ... }
+    message: "Missing access control for admin menu page"
+    languages: [php]
+    severity: ERROR

@@ -1,25 +1,5 @@
 import { useEffect, useState } from 'react';
 
-// 결과 데이터 타입 정의
-export type AnalysisResult = {
-  check_id: string;
-  path: string;
-  start: { line: number };
-  end: { line: number };
-  extra: {
-    severity: 'ERROR' | 'WARNING' | 'INFO';
-    message: string;
-    lines: string;
-  };
-};
-
-export type AnalysisResultsData = {
-  status: 'processing' | 'completed';
-  result?: {
-    results: AnalysisResult[];
-  };
-};
-
 interface AnalysisResultsProps {
   taskId: string;
   onComplete?: () => void;
@@ -28,13 +8,12 @@ interface AnalysisResultsProps {
 const AnalysisResults = ({ taskId, onComplete }: AnalysisResultsProps) => {
   const [result, setResult] = useState<AnalysisResultsData | null>(null);
 
-  // 결과 폴링
   useEffect(() => {
     if (!taskId) return;
 
     const interval = setInterval(async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/analysis/result/${taskId}`);
+        const response = await fetch(`http://localhost:8000/api/analysis/scans/${taskId}`);
         const data = await response.json();
         setResult(data);
         if (data.status === 'completed') {
@@ -68,8 +47,9 @@ const AnalysisResults = ({ taskId, onComplete }: AnalysisResultsProps) => {
             >
               <div className="flex items-center gap-2 mb-2">
                 <span className={`px-2 py-1 rounded-full text-sm ${
-                  finding.extra.severity === 'ERROR' ? 'bg-red-100 text-red-800' :
+                  finding.extra.severity === 'ERROR' ? 'bg-slate-100 text-zinc-800' :
                   finding.extra.severity === 'WARNING' ? 'bg-yellow-100 text-yellow-800' :
+                  finding.extra.severity === 'CRITICAL' ? 'bg-red-200 text-red-900' :
                   'bg-blue-100 text-blue-800'
                 }`}>
                   {finding.extra.severity}
