@@ -1,5 +1,5 @@
 rules:
-  # 1. 파일 업로드 취약점 탐지 (Improved)
+  # 1. 파일 업로드 취약점 탐지
   - id: wordpress-unrestricted-file-upload
     patterns:
       - pattern: |
@@ -12,7 +12,7 @@ rules:
     languages: [php]
     severity: ERROR
 
-  # 2. SQL 인젝션 탐지 (Improved)
+  # 2. SQL 인젝션 탐지
   - id: wordpress-sql-injection
     patterns:
       - pattern-either:
