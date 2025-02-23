@@ -1,4 +1,5 @@
 # Test
+analysis 컨테이너 없애고 backend에 통합
 ## 설치, 실행
 ```bash
 git clone https://github.com/oesp91/WPHunter.git
